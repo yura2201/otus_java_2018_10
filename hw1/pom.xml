@@ -60,7 +60,7 @@
                     <dependency>
                         <groupId>net.sf.proguard</groupId>
                         <artifactId>proguard-base</artifactId>
-                        <version>6.0.2</version>
+                        <version>${proguard.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>
@@ -70,7 +70,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <proguardVersion>6.0.2</proguardVersion>
+                    <proguardVersion>${proguard.version}</proguardVersion>
                     <obfuscate>true</obfuscate>
                     <injar>${project.name}.jar</injar>
                     <outjar>${project.name}-small.jar</outjar>
