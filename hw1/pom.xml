@@ -13,8 +13,7 @@
         <maven.assembly.plugin.version>3.1.0</maven.assembly.plugin.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <org.apache.commons.lang.version>3.3.1</org.apache.commons.lang.version>
-        <proguard.version>6.0.2</proguard.version>
+        <org.apache.commons.lang.version>3.3.1</org.apache.commons.lang.version>        
         <org.apache.commons.collections.version>4.1</org.apache.commons.collections.version>
         <com.google.guava.version>23.0</com.google.guava.version>
     </properties>
