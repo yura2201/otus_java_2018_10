@@ -10,26 +10,17 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>hw1</artifactId>
+    <artifactId>hw2</artifactId>
     <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.apache.commons.collections.version>4.1</org.apache.commons.collections.version>
-        <com.google.guava.version>23.0</com.google.guava.version>
-    </properties>
 
     <dependencies>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
-            <version>${org.apache.commons.collections.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${com.google.guava.version}</version>
-        </dependency>
+
     </dependencies>
 
     <build>
@@ -54,7 +45,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.java.Work1</mainClass>
+                            <mainClass>ru.otus.java.Work2</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
