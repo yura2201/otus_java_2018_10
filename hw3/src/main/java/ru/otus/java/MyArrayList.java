@@ -21,18 +21,17 @@ public class MyArrayList<E> implements List<E> {
 
   private static String INVALID_SIZE = "Invalid list size";
 
-  private int size;
+  private int size = 0;
 
   public MyArrayList() {
     this.array = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
   }
 
-  public MyArrayList(int size) {
-    if (size < 0 || size > MAX_ARRAY_SIZE) {
+  public MyArrayList(int initialCapacity) {
+    if (initialCapacity < 0 || initialCapacity > MAX_ARRAY_SIZE) {
       throw new RuntimeException(INVALID_SIZE);
     } else {
-      this.size = size;
-      this.array = new Object[size];
+      this.array = new Object[initialCapacity];
     }
   }
 

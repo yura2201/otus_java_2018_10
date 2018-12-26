@@ -44,7 +44,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>ru.otus.java.Work2</mainClass>
+                            <mainClass>ru.otus.java.Work3</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
