@@ -14,16 +14,17 @@ import java.util.Objects;
 public class MyArrayList<E> implements List<E> {
 
   private Object[] array;
-  private static int DEFAULT_SIZE = 10;
+  private static int DEFAULT_CAPACITY = 10;
   private static int RESIZE_FRACT = 2;
   private static int MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+  private static final Object[] DEFAULTCAPACITY_EMPTY_ELEMENTDATA = {};
 
   private static String INVALID_SIZE = "Invalid list size";
 
   private int size;
 
   public MyArrayList() {
-    this(DEFAULT_SIZE);
+    this.array = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
   }
 
   public MyArrayList(int size) {
@@ -43,7 +44,7 @@ public class MyArrayList<E> implements List<E> {
         array = Arrays.copyOf(array, size, Object[].class);
     } else {
       // replace with empty array.
-      this.array = new Object[] {};
+      this.array = DEFAULTCAPACITY_EMPTY_ELEMENTDATA;
     }
   }
 
@@ -78,7 +79,7 @@ public class MyArrayList<E> implements List<E> {
   }
 
   private void ensureCapacity(int minCapacity) {
-    int capacity = array.length == 0 ? Math.max(DEFAULT_SIZE, minCapacity) : minCapacity;
+    int capacity = array.length == 0 ? Math.max(DEFAULT_CAPACITY, minCapacity) : minCapacity;
     rangeCheck(capacity, MAX_ARRAY_SIZE);
     if (capacity > array.length) {
       array = Arrays.copyOf(array, getNewCapacity(capacity));
