@@ -25,14 +25,18 @@ public class Runner {
   private static final Object[] EMPTY_ARG = {};
 
   /**
-   * Runs test for a given class type
+   * Runs a test for a given class type
    * 
    * @param clazz
    *          Class&lt;?&gt; class type to be executed
    */
   public void run(Class<?> clazz) {
-    ExecutableContainer container = getCommonExecutableContainer(clazz);
-    execute(clazz, container);
+    if (Objects.nonNull(clazz)) {
+      ExecutableContainer container = getCommonExecutableContainer(clazz);
+      if (Objects.nonNull(container)) {
+        execute(clazz, container);
+      }
+    }
   }
 
   /**
@@ -65,7 +69,8 @@ public class Runner {
   }
 
   private void execute(Class<?> clazz, ExecutableContainer container) {
-    if (!(Objects.isNull(container) || Objects.isNull(container.getTestMethodNames())
+    if (!(Objects.isNull(clazz) || Objects.isNull(container)
+        || Objects.isNull(container.getTestMethodNames())
         || container.getTestMethodNames().length == 0)) {
       for (String testMethodName : container.getTestMethodNames()) {
         Object test = ReflectionHelper.instantiate(clazz, EMPTY_ARG);
