@@ -24,21 +24,41 @@ public class Runner {
 
   private static final Object[] EMPTY_ARG = {};
 
+  /**
+   * Runs test for a given class type
+   * 
+   * @param clazz
+   *          Class&lt;?&gt; class type to be executed
+   */
   public void run(Class<?> clazz) {
     ExecutableContainer container = getCommonExecutableContainer(clazz);
     execute(clazz, container);
   }
 
-  public void run(String qualifiedName)
-      throws ClassNotFoundException, IOException, URISyntaxException {
-    List<String> classes = getClassNamesFromPackage(qualifiedName);
+  /**
+   * Runs a test or a bunch of tests depends on a <b>name</b> parameter, considering it is a full
+   * qualified name of the class or a package name where test classes are placed. First checks for a
+   * package case, if no classes were found tries run a single test considering the name is a full
+   * qualified class name
+   * 
+   * @param name
+   *          name of the class or a package
+   * @throws ClassNotFoundException
+   *           if no such a class has been found
+   * @throws IOException
+   *           because of a package scan
+   * @throws URISyntaxException
+   *           because of a package scan
+   */
+  public void run(String name) throws ClassNotFoundException, IOException, URISyntaxException {
+    List<String> classes = getClassNamesFromPackage(name);
     if (Objects.isNull(classes) || classes.isEmpty()) {
-      Class<?> clazz = Class.forName(qualifiedName);
+      Class<?> clazz = Class.forName(name);
       run(clazz);
     } else {
-      String fullQualifiedName = qualifiedName.concat(".");
-      for (String name : classes) {
-        Class<?> clazz = Class.forName(fullQualifiedName.concat(name));
+      String fullQualifiedName = name.concat(".");
+      for (String className : classes) {
+        Class<?> clazz = Class.forName(fullQualifiedName.concat(className));
         run(clazz);
       }
     }
