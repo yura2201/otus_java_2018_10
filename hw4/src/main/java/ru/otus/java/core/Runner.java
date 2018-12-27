@@ -15,12 +15,17 @@ import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import ru.otus.java.annotation.After;
 import ru.otus.java.annotation.Before;
 import ru.otus.java.annotation.Test;
 import ru.otus.java.util.ReflectionHelper;
 
 public class Runner {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Runner.class);
 
   private static final Object[] EMPTY_ARG = {};
 
@@ -75,8 +80,17 @@ public class Runner {
       for (String testMethodName : container.getTestMethodNames()) {
         Object test = ReflectionHelper.instantiate(clazz, EMPTY_ARG);
         executeArray(test, container.getBeforeMethodNames());
-        ReflectionHelper.callMethod(test, testMethodName, EMPTY_ARG);
-        executeArray(test, container.getAfterMethodNames());
+        try {
+          try {
+            ReflectionHelper.callMethod(test, testMethodName, EMPTY_ARG);
+            LOG.debug("test succeed - execute method=[{}]", testMethodName);
+          } catch (AssertionError ae) {
+            LOG.error("test fail - execute - method=[{}], message=[{}]", testMethodName,
+                ae.getMessage());
+          }
+        } finally {
+          executeArray(test, container.getAfterMethodNames());
+        }
       }
     }
   }
