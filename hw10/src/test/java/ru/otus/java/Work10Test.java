@@ -37,14 +37,8 @@ public class Work10Test {
     String name = "TEST_NAME_01";
     int age = 101;
     executor.update("insert into user(name, age) values (?, ?)", name, age);
-    List<User> users = executor.loadAll(User.class);
-    Assert.assertNotNull("Non null object expected", users);
-    Assert.assertFalse("Expected not empty list but it is", users.isEmpty());
 
-    User result = users.stream()
-        .filter(item -> Objects.equals(name, item.getName()) && Objects.equals(age, item.getAge()))
-        .findAny().orElse(null);
-    Assert.assertNotNull("Expected user not found", result);
+    User result = getUserFromList(executor, name, age);
 
     User user = executor.load(result.getId(), User.class);
 
@@ -79,14 +73,7 @@ public class Work10Test {
     int age = 103;
     executor.update("insert into user(name, age) values (?, ?)", name, age);
 
-    List<User> users = executor.loadAll(User.class);
-    Assert.assertNotNull("Non null object expected", users);
-    Assert.assertFalse("Expected not empty list but it is", users.isEmpty());
-
-    User result = users.stream()
-        .filter(item -> Objects.equals(name, item.getName()) && Objects.equals(age, item.getAge()))
-        .findAny().orElse(null);
-    Assert.assertNotNull("Expected user not found", result);
+    User result = getUserFromList(executor, name, age);
 
     String updName = "TEST_NAME_04";
     int updAge = 104;
@@ -100,5 +87,19 @@ public class Work10Test {
         updName, user.getName());
     Assert.assertTrue("Expected age=[" + updAge + "] but actual=[" + user.getAge() + "]",
         updAge == user.getAge());
+  }
+
+  private User getUserFromList(MyExecutor<User> executor, String name, int age)
+      throws InstantiationException, IllegalAccessException, SQLException {
+    List<User> users = executor.loadAll(User.class);
+    Assert.assertNotNull("Non null object expected", users);
+    Assert.assertFalse("Expected not empty list but it is", users.isEmpty());
+
+    User result = users.stream()
+        .filter(item -> Objects.equals(name, item.getName()) && Objects.equals(age, item.getAge()))
+        .findAny().orElse(null);
+    Assert.assertNotNull("Expected user not found", result);
+
+    return result;
   }
 }

@@ -71,10 +71,9 @@ public class RequestBuilderImpl<T> implements RequestBuilder<T> {
     sb.append(Character.toLowerCase(name.charAt(0)));
     for (char ch : name.substring(1, name.length()).toCharArray()) {
       if (Character.isUpperCase(ch)) {
-        sb.append("_").append(Character.toLowerCase(ch));
-      } else {
-        sb.append(Character.toLowerCase(ch));
+        sb.append("_");
       }
+      sb.append(Character.toLowerCase(ch));
     }
     return sb.toString();
   }
