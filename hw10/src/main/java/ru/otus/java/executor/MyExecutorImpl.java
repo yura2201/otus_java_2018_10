@@ -15,7 +15,7 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ru.otus.java.InconsistentResultException;
+import ru.otus.java.exception.InconsistentResultException;
 import ru.otus.java.util.ReflectionHelper;
 import ru.otus.java.util.RequestBuilder;
 import ru.otus.java.util.RequestBuilderImpl;

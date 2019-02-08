@@ -1,4 +1,4 @@
-package ru.otus.java;
+package ru.otus.java.exception;
 
 public class AnnotationNotFoundException extends RuntimeException {
 

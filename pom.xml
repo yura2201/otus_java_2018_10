@@ -22,7 +22,8 @@
         <module>hw2</module>
         <module>hw3</module>
         <module>hw4</module>
-        <module>hw10</module>
+        <module>hw10</module>        
+        <module>common-util</module>
     </modules>
 
     <dependencies>
@@ -41,5 +42,11 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>1.6.4</version>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>        
     </dependencies>
 </project>

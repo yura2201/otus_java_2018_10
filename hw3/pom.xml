@@ -14,12 +14,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
+            <groupId>ru.otus.java</groupId>
+    		<artifactId>common-util</artifactId>
+    		<version>${parent.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

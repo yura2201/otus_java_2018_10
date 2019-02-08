@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import ru.otus.java.AnnotationNotFoundException;
+import ru.otus.java.exception.AnnotationNotFoundException;
 
 /**
  * Created by tully.

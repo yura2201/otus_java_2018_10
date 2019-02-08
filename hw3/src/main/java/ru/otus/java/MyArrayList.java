@@ -8,6 +8,8 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import ru.otus.java.exception.NotImplementedException;
+
 /**
  * Created by yurait6@gmail.com on 28.11.2018.
  */
