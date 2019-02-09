@@ -92,6 +92,7 @@ public class ReflectionHelper {
     return Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
   }
 
+  @SafeVarargs
   public static <T> Set<Method> getAnnotatedMethods(Class<T> type,
       Class<? extends Annotation>... annotations) {
     Set<Method> result = new HashSet<>();
