@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Savepoint;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,8 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ru.otus.java.exception.InconsistentResultException;
-import ru.otus.java.util.ReflectionHelper;
+import ru.otus.java.dbservice.MyResultSetExtractor;
+import ru.otus.java.dbservice.ResultSetExtractor;
 import ru.otus.java.util.RequestBuilder;
 import ru.otus.java.util.RequestBuilderImpl;
 
@@ -83,18 +82,8 @@ public class MyExecutorImpl<T> implements MyExecutor<T> {
     Map.Entry<String, List<String>> requestData = requestBuilder.buildLoadRequest(clazz);
     try (PreparedStatement pst = connection.prepareStatement(requestData.getKey())) {
       setParameterValue(pst, 1, id);
-      try (ResultSet rs = pst.executeQuery()) {
-        List<String> fieldNames = requestData.getValue();
-        T object = clazz.newInstance();
-        rs.next();
-        for (int i = 0; i < fieldNames.size(); i++) {
-          ReflectionHelper.setFieldValue(object, fieldNames.get(i), getResultSetValue(rs, i + 1));
-        }
-        if (rs.next()) {
-          throw new InconsistentResultException();
-        }
-        return object;
-      }
+      ResultSetExtractor<T> extractor = new MyResultSetExtractor<>();
+      return extractor.extractData(pst.executeQuery(), requestData.getValue(), clazz);
     }
   }
 
@@ -103,19 +92,8 @@ public class MyExecutorImpl<T> implements MyExecutor<T> {
       throws SQLException, InstantiationException, IllegalAccessException {
     Map.Entry<String, List<String>> requestData = requestBuilder.buildLoadAllRequest(clazz);
     try (PreparedStatement pst = connection.prepareStatement(requestData.getKey())) {
-      try (ResultSet rs = pst.executeQuery()) {
-        List<String> fieldNames = requestData.getValue();
-        List<T> result = new ArrayList<>();
-        T object;
-        while (rs.next()) {
-          object = clazz.newInstance();
-          for (int i = 0; i < fieldNames.size(); i++) {
-            ReflectionHelper.setFieldValue(object, fieldNames.get(i), getResultSetValue(rs, i + 1));
-          }
-          result.add(object);
-        }
-        return result;
-      }
+      ResultSetExtractor<T> extractor = new MyResultSetExtractor<>();
+      return extractor.extractListData(pst.executeQuery(), requestData.getValue(), clazz);
     }
   }
 
@@ -143,16 +121,6 @@ public class MyExecutorImpl<T> implements MyExecutor<T> {
     } else {
       ps.setObject(index, value);
     }
-  }
-
-  private static Object getResultSetValue(ResultSet rs, int index) throws SQLException {
-    Object obj = rs.getObject(index);
-    if (obj instanceof java.sql.Date) {
-      if ("java.sql.Timestamp".equals(rs.getMetaData().getColumnClassName(index))) {
-        obj = rs.getTimestamp(index);
-      }
-    }
-    return obj;
   }
 
   private static boolean isStringValue(Class<?> inValueType) {
