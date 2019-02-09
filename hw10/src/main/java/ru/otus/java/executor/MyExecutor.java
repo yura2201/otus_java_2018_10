@@ -7,11 +7,9 @@ public interface MyExecutor<T> {
 
   void save(T objectData) throws SQLException;
 
-  T load(Object id, Class<T> clazz)
-      throws SQLException, InstantiationException, IllegalAccessException;
+  T load(Object id, Class<T> clazz) throws SQLException;
 
-  List<T> loadAll(Class<T> clazz)
-      throws SQLException, InstantiationException, IllegalAccessException;
+  List<T> loadAll(Class<T> clazz) throws SQLException;
 
   void update(String sql, Object... args) throws SQLException;
 }

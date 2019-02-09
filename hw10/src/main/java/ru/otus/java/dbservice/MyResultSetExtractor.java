@@ -22,7 +22,8 @@ public class MyResultSetExtractor<T> implements ResultSetExtractor<T> {
   }
 
   @Override
-  public T extractData(ResultSet rs, List<String> fieldAliases, Class<T> clazz) {
+  public T extractData(ResultSet rs, List<String> fieldAliases, Class<T> clazz)
+      throws SQLException {
     T object;
     try {
       object = clazz.newInstance();
@@ -34,14 +35,15 @@ public class MyResultSetExtractor<T> implements ResultSetExtractor<T> {
         throw new InconsistentResultException();
       }
       return object;
-    } catch (InstantiationException | IllegalAccessException | SQLException e) {
+    } catch (InstantiationException | IllegalAccessException e) {
       LOG.error("extractData - {}", e.getMessage(), e);
       throw new DataAccessException(e.getMessage());
     }
   }
 
   @Override
-  public List<T> extractListData(ResultSet rs, List<String> fieldAliases, Class<T> clazz) {
+  public List<T> extractListData(ResultSet rs, List<String> fieldAliases, Class<T> clazz)
+      throws SQLException {
     List<T> result = new ArrayList<>();
     T object;
     try {
@@ -52,7 +54,7 @@ public class MyResultSetExtractor<T> implements ResultSetExtractor<T> {
         }
         result.add(object);
       }
-    } catch (InstantiationException | IllegalAccessException | SQLException e) {
+    } catch (InstantiationException | IllegalAccessException e) {
       LOG.error("extractListData - {}", e.getMessage(), e);
       throw new DataAccessException(e.getMessage());
     }

@@ -77,8 +77,7 @@ public class MyExecutorImpl<T> implements MyExecutor<T> {
   }
 
   @Override
-  public T load(Object id, Class<T> clazz)
-      throws SQLException, InstantiationException, IllegalAccessException {
+  public T load(Object id, Class<T> clazz) throws SQLException {
     Map.Entry<String, List<String>> requestData = requestBuilder.buildLoadRequest(clazz);
     try (PreparedStatement pst = connection.prepareStatement(requestData.getKey())) {
       setParameterValue(pst, 1, id);
@@ -88,8 +87,7 @@ public class MyExecutorImpl<T> implements MyExecutor<T> {
   }
 
   @Override
-  public List<T> loadAll(Class<T> clazz)
-      throws SQLException, InstantiationException, IllegalAccessException {
+  public List<T> loadAll(Class<T> clazz) throws SQLException {
     Map.Entry<String, List<String>> requestData = requestBuilder.buildLoadAllRequest(clazz);
     try (PreparedStatement pst = connection.prepareStatement(requestData.getKey())) {
       ResultSetExtractor<T> extractor = new MyResultSetExtractor<>();
