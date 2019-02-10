@@ -24,6 +24,7 @@
         <module>hw4</module>
         <module>hw10</module>        
         <module>common-util</module>
+        <module>hw7-atm</module>
     </modules>
 
     <dependencies>
