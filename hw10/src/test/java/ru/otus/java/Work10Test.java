@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import ru.otus.java.database.entity.User;
 import ru.otus.java.dbservice.DataSourceH2;
+import ru.otus.java.dbservice.MyResultSetExtractor;
 import ru.otus.java.executor.MyExecutor;
 import ru.otus.java.executor.MyExecutorImpl;
 
@@ -40,7 +41,7 @@ public class Work10Test {
 
     User result = getUserFromList(executor, name, age);
 
-    User user = executor.load(result.getId(), User.class);
+    User user = executor.load(result.getId(), User.class, new MyResultSetExtractor<>());
 
     Assert.assertNotNull("Non null object expected", user);
     Assert.assertEquals("Expected name=[" + name + "] but actual=[" + user.getName() + "]", name,
@@ -58,7 +59,7 @@ public class Work10Test {
     user.setName(name);
     MyExecutor<User> executor = new MyExecutorImpl<>(ds.getConnection());
     executor.save(user);
-    List<User> users = executor.loadAll(User.class);
+    List<User> users = executor.loadAll(User.class, new MyResultSetExtractor<>());
     Assert.assertNotNull("Non null object expected", users);
     Assert.assertFalse("Expected not empty list but it is", users.isEmpty());
 
@@ -81,7 +82,7 @@ public class Work10Test {
     result.setName(updName);
     executor.save(result);
 
-    User user = executor.load(result.getId(), User.class);
+    User user = executor.load(result.getId(), User.class, new MyResultSetExtractor<>());
     Assert.assertNotNull("Non null object expected", user);
     Assert.assertEquals("Expected name=[" + updName + "] but actual=[" + user.getName() + "]",
         updName, user.getName());
@@ -91,7 +92,7 @@ public class Work10Test {
 
   private User getUserFromList(MyExecutor<User> executor, String name, int age)
       throws InstantiationException, IllegalAccessException, SQLException {
-    List<User> users = executor.loadAll(User.class);
+    List<User> users = executor.loadAll(User.class, new MyResultSetExtractor<>());
     Assert.assertNotNull("Non null object expected", users);
     Assert.assertFalse("Expected not empty list but it is", users.isEmpty());
 

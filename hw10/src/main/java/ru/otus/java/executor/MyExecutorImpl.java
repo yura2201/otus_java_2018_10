@@ -14,7 +14,6 @@ import java.util.Objects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ru.otus.java.dbservice.MyResultSetExtractor;
 import ru.otus.java.dbservice.ResultSetExtractor;
 import ru.otus.java.util.RequestBuilder;
 import ru.otus.java.util.RequestBuilderImpl;
@@ -77,20 +76,18 @@ public class MyExecutorImpl<T> implements MyExecutor<T> {
   }
 
   @Override
-  public T load(Object id, Class<T> clazz) throws SQLException {
+  public T load(Object id, Class<T> clazz, ResultSetExtractor<T> extractor) throws SQLException {
     Map.Entry<String, List<String>> requestData = requestBuilder.buildLoadRequest(clazz);
     try (PreparedStatement pst = connection.prepareStatement(requestData.getKey())) {
       setParameterValue(pst, 1, id);
-      ResultSetExtractor<T> extractor = new MyResultSetExtractor<>();
       return extractor.extractData(pst.executeQuery(), requestData.getValue(), clazz);
     }
   }
 
   @Override
-  public List<T> loadAll(Class<T> clazz) throws SQLException {
+  public List<T> loadAll(Class<T> clazz, ResultSetExtractor<T> extractor) throws SQLException {
     Map.Entry<String, List<String>> requestData = requestBuilder.buildLoadAllRequest(clazz);
     try (PreparedStatement pst = connection.prepareStatement(requestData.getKey())) {
-      ResultSetExtractor<T> extractor = new MyResultSetExtractor<>();
       return extractor.extractListData(pst.executeQuery(), requestData.getValue(), clazz);
     }
   }
