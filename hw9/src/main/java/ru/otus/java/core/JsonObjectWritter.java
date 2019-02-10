@@ -47,6 +47,10 @@ public class JsonObjectWritter {
   }
 
   private static void addArrayValue(Object object, JsonArrayBuilder arrayBuilder) {
+    if (Objects.isNull(object)) {
+      arrayBuilder.addNull();
+      return;
+    }
     if (isSimpleType(object)) {
       Class<?> clazz = object.getClass();
       if (String.class.isAssignableFrom(clazz)) {
@@ -104,6 +108,10 @@ public class JsonObjectWritter {
 
   private static void addObjectValue(Object object, Field field, JsonObjectBuilder objectBuilder) {
     Object fieldValue = ReflectionHelper.getFieldValue(object, field.getName());
+    if (Objects.isNull(fieldValue)) {
+      objectBuilder.addNull(field.getName());
+      return;
+    }
     if (isSimpleType(fieldValue)) {
       Class<?> clazz = fieldValue.getClass();
       if (String.class.isAssignableFrom(clazz)) {
