@@ -7,13 +7,20 @@ import java.util.Objects;
 public class Department {
 
   private List<Atm> atms;
+  private final EventManager events;
+
+  public Department() {
+    this.events = new EventManager("reset", "printRest");
+  }
 
   public long printRestAmount() {
+    events.notify("printRest");
     return atms.stream().map(Atm::printRestAmount).reduce(0L, Long::sum);
   }
 
   public void reset() {
     atms.forEach(Atm::reset);
+    events.notify("reset");
   }
 
   public List<Atm> getAtms() {
@@ -38,15 +45,7 @@ public class Department {
     this.atms.add(atm);
   }
 
-  @Override
-  public String toString() {
-    StringBuilder builder = new StringBuilder();
-    builder.append("Department [totalAmount=");
-    builder.append(printRestAmount());
-    builder.append(", ");
-    builder.append("atms=");
-    builder.append(atms);
-    builder.append("]");
-    return builder.toString();
+  public EventManager getEvents() {
+    return events;
   }
 }
